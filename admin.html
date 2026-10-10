@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>NOVA SELECT · 管理后台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body>
+    <header class="admin-header">
+      <a class="admin-brand" href="./index.html">
+        <span>N</span>
+        <div><strong>NOVA ADMIN</strong><small>PRIVATE CONSOLE</small></div>
+      </a>
+      <div class="header-actions">
+        <span id="admin-identity"></span>
+        <button id="sign-out-button" class="ghost-button" type="button" hidden>退出登录</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <section id="setup-panel" class="state-panel" hidden>
+        <span class="state-icon">⚙</span>
+        <span class="kicker">BACKEND SETUP</span>
+        <h1>先连接 Supabase</h1>
+        <p>管理后台代码已经准备好。请按照项目中的设置文档创建数据库，并把项目 URL 与 anon key 填入 <code>config.js</code>。</p>
+        <a class="primary-link" href="./SETUP.md">查看接入步骤</a>
+      </section>
+
+      <section id="login-panel" class="login-panel" hidden>
+        <div>
+          <span class="kicker">AUTHORIZED ONLY</span>
+          <h1>管理员登录</h1>
+          <p>使用已授权的管理员邮箱和密码登录。登录后才能编辑商品及查看客户订单。</p>
+        </div>
+        <form id="login-form">
+          <label>
+            <span>管理员邮箱</span>
+            <input name="email" type="email" required autocomplete="email" value="1957771122@qq.com" placeholder="name@example.com" />
+          </label>
+          <label class="password-field">
+            <span>登录密码</span>
+            <input name="password" type="password" required minlength="8" autocomplete="current-password" placeholder="请输入管理员密码" />
+          </label>
+          <button class="primary-button" type="submit">
+            <span class="login-label">登录后台</span>
+            <span class="login-loading" hidden>正在登录…</span>
+          </button>
+          <p id="login-message" class="form-message" role="status"></p>
+        </form>
+      </section>
+
+      <section id="unauthorized-panel" class="state-panel" hidden>
+        <span class="state-icon">!</span>
+        <span class="kicker">ACCESS DENIED</span>
+        <h1>此账号没有管理权限</h1>
+        <p>为了保护商品和订单数据，只有数据库中登记的管理员账号可以访问。</p>
+        <button class="primary-button" id="unauthorized-sign-out" type="button">退出并更换账号</button>
+      </section>
+
+      <section id="dashboard" hidden>
+        <div class="dashboard-heading">
+          <div>
+            <span class="kicker">PRIVATE CONSOLE</span>
+            <h1>商城管理</h1>
+          </div>
+          <a class="store-link" href="./index.html" target="_blank" rel="noopener">查看店铺 ↗</a>
+        </div>
+
+        <div class="stats-grid">
+          <article><span>商品数量</span><strong id="stat-products">0</strong></article>
+          <article><span>已上架</span><strong id="stat-active">0</strong></article>
+          <article><span>待确认订单</span><strong id="stat-pending">0</strong></article>
+          <article><span>全部订单</span><strong id="stat-orders">0</strong></article>
+        </div>
+
+        <div class="admin-tabs" role="tablist">
+          <button class="admin-tab active" type="button" data-admin-tab="products">商品管理</button>
+          <button class="admin-tab" type="button" data-admin-tab="orders">订单管理</button>
+        </div>
+
+        <section class="admin-section" data-admin-panel="products">
+          <div class="editor-layout">
+            <form id="product-form" class="editor-card">
+              <div class="editor-title">
+                <div>
+                  <span class="kicker">PRODUCT EDITOR</span>
+                  <h2 id="product-form-title">添加商品</h2>
+                </div>
+                <button id="cancel-edit-button" class="text-button" type="button" hidden>取消编辑</button>
+              </div>
+              <input name="id" type="hidden" />
+              <div class="form-grid">
+                <label class="full-field">
+                  <span>商品名称 *</span>
+                  <input name="name" required maxlength="160" />
+                </label>
+                <label>
+                  <span>分类 *</span>
+                  <select name="category" required>
+                    <option>日常好物</option>
+                    <option>家居灵感</option>
+                    <option>出行装备</option>
+                    <option>小物收藏</option>
+                  </select>
+                </label>
+                <label>
+                  <span>参考价格（USD）*</span>
+                  <input name="price" type="number" min="0" step="0.01" required />
+                </label>
+                <label>
+                  <span>角标</span>
+                  <input name="label" maxlength="24" placeholder="NEW / HOT" />
+                </label>
+                <label>
+                  <span>排序</span>
+                  <input name="sort_order" type="number" min="0" step="1" value="100" />
+                </label>
+                <label class="full-field">
+                  <span>商品说明</span>
+                  <textarea name="description" maxlength="1200"></textarea>
+                </label>
+                <label class="full-field">
+                  <span>商品图片</span>
+                  <input name="image" type="file" accept="image/png,image/jpeg,image/webp" />
+                  <small>留空将保留原图；建议使用 1:1 或 6:5 图片。</small>
+                </label>
+              </div>
+              <div class="switch-row">
+                <label><input name="is_active" type="checkbox" checked /> <span>上架商品</span></label>
+                <label><input name="is_featured" type="checkbox" /> <span>本周精选</span></label>
+              </div>
+              <button class="primary-button full-button" type="submit">
+                <span class="save-label">保存商品</span>
+                <span class="save-loading" hidden>正在保存…</span>
+              </button>
+              <p id="product-message" class="form-message" role="status"></p>
+            </form>
+
+            <div class="list-card">
+              <div class="list-heading">
+                <div>
+                  <span class="kicker">CATALOG</span>
+                  <h2>商品列表</h2>
+                </div>
+                <button id="refresh-products" class="icon-button" type="button" aria-label="刷新商品">↻</button>
+              </div>
+              <div id="admin-products-list" class="admin-products-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-section" data-admin-panel="orders" hidden>
+          <div class="list-card orders-card">
+            <div class="list-heading">
+              <div>
+                <span class="kicker">CUSTOMER ORDERS</span>
+                <h2>订单列表</h2>
+              </div>
+              <button id="refresh-orders" class="icon-button" type="button" aria-label="刷新订单">↻</button>
+            </div>
+            <div id="admin-orders-list" class="admin-orders-list"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="admin-toast" class="admin-toast" role="status"></div>
+    <script src="./config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./admin.js"></script>
+  </body>
+</html>

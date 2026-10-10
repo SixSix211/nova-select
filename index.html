@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#f7f5f1" />
+    <meta name="description" content="NOVA SELECT — 面向美国地区的精选生活方式商城" />
+    <title>NOVA SELECT · 精选生活方式商城</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-lockup" data-nav="home" role="button" tabindex="0" aria-label="返回首页">
+          <span class="brand-mark">N</span>
+          <span>
+            <strong>NOVA</strong>
+            <small>SELECT / 2026</small>
+          </span>
+        </div>
+        <div class="location-pill">
+          <span class="status-dot"></span>
+          <span>US ONLY</span>
+        </div>
+      </header>
+
+      <main id="app" class="page-content">
+        <section class="view" data-view="home">
+          <div class="welcome-row">
+            <div>
+              <span class="eyebrow">CURATED DAILY</span>
+              <h1>今天，选点<br /><em>不一样的。</em></h1>
+            </div>
+            <button class="icon-button" type="button" data-nav="profile" aria-label="打开个人中心">
+              <span class="avatar">NK</span>
+            </button>
+          </div>
+
+          <label class="search-box" for="search-input">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="search-input" type="search" placeholder="搜索产品、品牌或关键词" autocomplete="off" />
+            <kbd>⌘ K</kbd>
+          </label>
+
+          <div class="notice-card">
+            <div class="notice-icon">✦</div>
+            <div>
+              <strong>服务提醒</strong>
+              <p>仅面向美国地区发货。客服只通过站内消息联系，不会以电话索取验证码或付款。</p>
+            </div>
+            <button class="notice-close" type="button" aria-label="关闭提醒">×</button>
+          </div>
+
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">EXPLORE</span>
+              <h2>逛一逛</h2>
+            </div>
+            <button class="text-button" type="button" data-nav="categories">全部分类 <span>↗</span></button>
+          </div>
+
+          <div class="category-rail" id="category-rail" aria-label="商品分类"></div>
+
+          <section class="feature-banner" aria-label="本季主题">
+            <div class="feature-copy">
+              <span class="eyebrow light">NOVA DROP 02</span>
+              <h2>春日补给站</h2>
+              <p>把日常用的小东西，换成更有趣的版本。</p>
+              <button class="light-button" type="button" data-filter="新品">查看新品 <span>→</span></button>
+            </div>
+            <div class="feature-art" aria-hidden="true">
+              <div class="orbit orbit-one"></div>
+              <div class="orbit orbit-two"></div>
+              <div class="orbit orbit-three"></div>
+              <div class="floating-cube cube-one"></div>
+              <div class="floating-cube cube-two"></div>
+              <span class="drop-label">02<br /><small>DROP</small></span>
+            </div>
+          </section>
+
+          <div class="section-heading compact">
+            <div>
+              <span class="eyebrow">HANDPICKED</span>
+              <h2>本周精选</h2>
+            </div>
+            <button class="text-button" type="button" data-nav="categories">查看更多 <span>↗</span></button>
+          </div>
+          <div class="product-rail" id="featured-products"></div>
+
+          <div class="section-heading compact all-products-heading">
+            <div>
+              <span class="eyebrow">ALL ITEMS</span>
+              <h2>全部商品</h2>
+            </div>
+            <span id="product-count" class="count-label"></span>
+          </div>
+          <div class="product-grid" id="product-grid"></div>
+          <div id="empty-state" class="empty-state" hidden>
+            <span>⌁</span>
+            <strong>没有找到匹配的商品</strong>
+            <p>换一个关键词试试，或者看看全部商品。</p>
+          </div>
+        </section>
+
+        <section class="view" data-view="categories" hidden>
+          <div class="page-title-row">
+            <div>
+              <span class="eyebrow">DISCOVER MORE</span>
+              <h1>全部分类</h1>
+            </div>
+            <span class="page-index">01 / 04</span>
+          </div>
+          <p class="page-intro">按你今天的心情，找到一件刚刚好的小物。</p>
+          <div class="category-list" id="category-list"></div>
+          <div class="section-heading compact category-results-heading">
+            <div>
+              <span class="eyebrow">BROWSE</span>
+              <h2 id="category-result-title">热门推荐</h2>
+            </div>
+            <span id="category-result-count" class="count-label"></span>
+          </div>
+          <div class="product-grid" id="category-product-grid"></div>
+        </section>
+
+        <section class="view" data-view="cart" hidden>
+          <div class="page-title-row">
+            <div>
+              <span class="eyebrow">YOUR BAG</span>
+              <h1>购物车</h1>
+            </div>
+            <span class="page-index" id="cart-count-heading">0 件</span>
+          </div>
+          <div id="cart-content"></div>
+        </section>
+
+        <section class="view" data-view="profile" hidden>
+          <div class="profile-hero">
+            <div class="profile-avatar">N</div>
+            <div>
+              <span class="eyebrow">NOVA SERVICE</span>
+              <h1>选品说明</h1>
+              <p>先提交需求，再由我们与你确认价格、库存与配送信息。</p>
+            </div>
+          </div>
+          <div class="profile-grid">
+            <div class="profile-card accent-card">
+              <span class="card-kicker">NO PAYMENT</span>
+              <strong>0</strong>
+              <span>网站提交订单时无需在线付款</span>
+            </div>
+            <div class="profile-card">
+              <span class="profile-icon">⌁</span>
+              <strong>价格参考</strong>
+              <span>页面金额为参考价，最终价格以人工确认为准</span>
+            </div>
+            <div class="profile-card">
+              <span class="profile-icon">♡</span>
+              <strong>人工确认</strong>
+              <span>提交后我们会通过你填写的联系方式沟通</span>
+            </div>
+            <div class="profile-card">
+              <span class="profile-icon">⚙</span>
+              <strong>美国地区</strong>
+              <span>当前商品与配送信息仅面向美国地区</span>
+            </div>
+          </div>
+          <div class="profile-note">
+            <span class="profile-note-mark">N</span>
+            <div>
+              <strong>信息用途</strong>
+              <p>客户提交的联系方式仅用于本次订单确认，不在页面中公开显示。</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="主导航">
+        <button class="nav-item active" type="button" data-nav="home">
+          <span class="nav-icon">⌂</span>
+          <span>首页</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="categories">
+          <span class="nav-icon nav-grid-icon"><i></i><i></i><i></i><i></i></span>
+          <span>分类</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="cart">
+          <span class="nav-icon">▱<b id="cart-badge">0</b></span>
+          <span>购物车</span>
+        </button>
+        <button class="nav-item" type="button" data-nav="profile">
+          <span class="nav-icon">◉</span>
+          <span>说明</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="modal-backdrop" id="checkout-modal" hidden>
+      <section class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+        <div class="modal-head">
+          <div>
+            <span class="eyebrow">SUBMIT ORDER</span>
+            <h2 id="checkout-title">提交选品订单</h2>
+          </div>
+          <button class="modal-close" type="button" data-close-checkout aria-label="关闭">×</button>
+        </div>
+        <p class="checkout-note">本次提交无需付款。商品价格为参考价，我们会根据订单信息与你联系确认。</p>
+        <div class="checkout-order-summary" id="checkout-order-summary"></div>
+        <form id="checkout-form" class="checkout-form">
+          <div class="form-grid">
+            <label>
+              <span>姓名 *</span>
+              <input name="customer_name" required maxlength="80" autocomplete="name" placeholder="如何称呼你" />
+            </label>
+            <label>
+              <span>联系方式 *</span>
+              <input name="contact" required maxlength="120" autocomplete="tel" placeholder="电话 / 微信 / WhatsApp" />
+            </label>
+            <label>
+              <span>邮箱</span>
+              <input name="email" type="email" maxlength="160" autocomplete="email" placeholder="用于接收订单信息" />
+            </label>
+            <label class="full-field">
+              <span>收货地址</span>
+              <textarea name="shipping_address" maxlength="500" autocomplete="street-address" placeholder="可暂不填写，后续确认"></textarea>
+            </label>
+            <label class="full-field">
+              <span>订单备注</span>
+              <textarea name="note" maxlength="500" placeholder="颜色、规格或其他需求"></textarea>
+            </label>
+            <label class="honeypot" aria-hidden="true">
+              <span>Website</span>
+              <input name="website" tabindex="-1" autocomplete="off" />
+            </label>
+          </div>
+          <label class="consent-row">
+            <input name="consent" type="checkbox" required />
+            <span>我同意提交以上联系信息，用于本次订单确认。</span>
+          </label>
+          <button class="submit-order-button" type="submit">
+            <span class="submit-label">确认提交订单</span>
+            <span class="submit-loading" hidden>正在提交…</span>
+          </button>
+          <p class="form-message" id="checkout-message" role="status"></p>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./config.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
