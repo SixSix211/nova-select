@@ -504,22 +504,26 @@ document.addEventListener("click", (event) => {
 
 el("#checkout-form").addEventListener("submit", async (event) => {
   event.preventDefault();
+  const form = event.currentTarget;
   const message = el("#checkout-message");
   message.className = "form-message";
   setCheckoutBusy(true);
   try {
-    const result = await submitOrder(event.currentTarget);
+    const result = await submitOrder(form);
     message.classList.add("success");
     message.textContent = `订单已提交，编号：${result.order_number}`;
     state.cart.clear();
     saveCart();
     updateCartBadge();
     renderCart();
-    event.currentTarget.reset();
+    form.reset();
     setTimeout(closeCheckout, 2200);
   } catch (error) {
     message.classList.add("error");
-    message.textContent = error.message || "订单提交失败，请稍后再试";
+    message.textContent =
+      error instanceof Error && !/null is not an object|currentTarget/i.test(error.message)
+        ? error.message
+        : "订单提交失败，请稍后再试";
   } finally {
     setCheckoutBusy(false);
   }
